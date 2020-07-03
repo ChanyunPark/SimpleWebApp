@@ -49,18 +49,25 @@
                 <version>0.8.5</version>
                 <executions>
                     <execution>
-                        <id>pre-unit-test</id>
+                        <id>jacoco-agent-ut</id>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
+			<configuration>
+                	    <destFile>${jacoco.report.ut}</destFile>
+                	    <propertyName>surefireArgLine</propertyName>
+            		</configuration>
                     </execution>
-                    <execution>
-                        <id>post-unit-test</id>
-                        <phase>test</phase>
-                        <goals>
-                            <goal>report</goal>
-                        </goals>
-                    </execution>
+			<execution>
+			    <id>jacoco-agent-it</id>
+			    <goals>
+				<goal>prepare-agent-integration</goal>
+			    </goals>
+			    <configuration>
+				<destFile>${jacoco.report.it}</destFile>
+				<propertyName>failsafeArgLine</propertyName>
+			    </configuration>
+			</execution>
                 </executions>
 	    </plugin>
             <plugin>
