@@ -7,7 +7,7 @@ class MyAppControllerTest {
 
     @Test
     public void testSum() {
-        Calculator calculator = new Calculator();
-        assertEquals(30, calculator.sum(10, 20));
+        MyAppController myApp = new MyAppController();
+        assertEquals(30, myApp.sum(10, 20));
     }
 }
