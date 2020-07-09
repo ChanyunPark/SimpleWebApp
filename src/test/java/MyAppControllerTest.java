@@ -8,5 +8,6 @@ class MyAppControllerTest {
     @Test
     public void testFunc() {
         MyAppController myApp = new MyAppController();
+        myApp.index();
     }
 }
