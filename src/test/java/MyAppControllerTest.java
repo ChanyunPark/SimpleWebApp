@@ -1,13 +1,13 @@
 package myapp;
 
-import org.junit.jupiter.api.Test;
-import static org.junit.jupiter.api.Assertions.*;
+import org.junit.Test;
+import static org.junit.Assert.*;
 
 class MyAppControllerTest {
 
     @Test
-    public void testFunc() {
-        MyAppController myApp = new MyAppController();
-        myApp.index();
+    public void testSum() {
+        Calculator calculator = new Calculator();
+        assertEquals(30, calculator.sum(10, 20));
     }
 }
