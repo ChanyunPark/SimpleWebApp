@@ -6,7 +6,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class MyAppControllerTest {
 
     @Test
-    public String testFunc() {
+    public void testFunc() {
         MyAppController myApp = new MyAppController();
     }
 }
