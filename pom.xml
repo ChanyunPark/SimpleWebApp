@@ -79,6 +79,16 @@
 					<goal>report</goal>
 				</goals>
 			</execution>
+			<execution>
+			    <id>jacoco-agent-it</id>
+			    <goals>
+				<goal>prepare-agent-integration</goal>
+			    </goals>
+			    <configuration>
+				<destFile>target/jacoco-it.exec</destFile>
+				<propertyName>failsafeArgLine</propertyName>
+			    </configuration>
+			</execution>
 		</executions>
 	    </plugin>
 	    <plugin>
