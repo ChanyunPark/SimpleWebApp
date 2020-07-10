@@ -80,15 +80,21 @@
 				</goals>
 			</execution>
 			<execution>
-			    <id>jacoco-agent-it</id>
+			    <id>pre-integration-tests</id>
 			    <goals>
 				<goal>prepare-agent-integration</goal>
 			    </goals>
 			    <configuration>
-				<destFile>target/jacoco-it.exec</destFile>
-				<propertyName>failsafeArgLine</propertyName>
+				<destFile>${session.executionRootDirectory}/target/jacoco-it.exec</destFile>
+                            	<append>true</append>
 			    </configuration>
 			</execution>
+			<execution>
+                        <id>report-integration-tests</id>
+                        <goals>
+                            <goal>report-integration</goal>
+                        </goals>
+                    </execution>
 		</executions>
 	    </plugin>
 	    <plugin>
