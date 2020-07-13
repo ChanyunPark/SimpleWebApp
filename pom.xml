@@ -145,7 +145,7 @@
                         	<configuration>
                             	    <destFile>${session.executionRootDirectory}/target/jacoco-it.exec</destFile>
 				    <fileSets>
-					    <fileSet implementation=org.apache.maven.shared.model.fileset.FileSet">
+					    <fileSet implementation="org.apache.maven.shared.model.fileset.FileSet">
                                             <directory>${project.build.directory}</directory>
                                             <includes>
                                                 <include>**/*.exec</include>
