@@ -33,7 +33,18 @@
     </dependencies>
 
     <properties>
+	<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	<project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+	<sonar.language>java</sonar.language>
+	<sonar.sourceEncoding>UTF-8</sonar.sourceEncoding>
+	<sonar.java.coveragePlugin>jacoco</sonar.java.coveragePlugin>
+        <sonar.core.codeCoveragePlugin>jacoco</sonar.core.codeCoveragePlugin>
+        <sonar.dynamicAnalysis>reuseReports</sonar.dynamicAnalysis>
+	<sonar.junit.reportPaths>${project.build.directory}/surefire-reports</sonar.junit.reportPaths>
+        <sonar.jacoco.reportPath>${project.build.directory}/jacoco.exec</sonar.jacoco.reportPath>
+	<sonar.coverage.jacoco.xmlReportPaths>${project.build.directory}/site/jacoco/jacoco.xml</sonar.coverage.jacoco.xmlReportPaths>
+	<sonar.jacoco.itReportPath>${project.build.directory}/jacoco-it.exec</sonar.jacoco.itReportPath>
     </properties>
 
     <build>
@@ -45,15 +56,16 @@
             </plugin>
 	    <plugin>
 		<groupId>org.apache.maven.plugins</groupId>
-		<artifactId>maven-compiler-plugin</artifactId>
-		<version>3.1</version>
+		<artifactId>maven-surefire-plugin</artifactId>
+		<version>2.18.1</version>
 		<configuration>
-			<source>1.8</source>
-			<target>1.8</target>
+		    <excludes>
+			<exclude>**/*TestAPI</exclude>
+			<exclude>**/*IntegrationTest</exclude>
+		    </excludes>
 		</configuration>
 	    </plugin>
 	    <plugin>
-		<!-- Java EE 6 doesn't require web.xml, Maven needs to catch up! -->
 		<groupId>org.apache.maven.plugins</groupId>
 		<artifactId>maven-war-plugin</artifactId>
 		<version>2.4</version>
@@ -62,19 +74,56 @@
 		</configuration>
 	    </plugin>
 	    <plugin>
+		<groupId>org.apache.maven.plugins</groupId>
+		<artifactId>maven-failsafe-plugin</artifactId>
+		<version>2.18.1</version>
+		<configuration>
+		    <includes>
+			<include>**/*TestAPI</include>
+			<include>**/*IntegrationTest</include>
+		    </includes>
+		</configuration>
+		<excutions>
+		    <excution>
+			    <id>default-integration-test</id>
+			    <goals>
+				    <goal>integration-test</goal>
+			    </goals>
+		    </excution>
+		</excutions>
+	    </plugin>
+	    <plugin>
 		<groupId>org.jacoco</groupId>
 		<artifactId>jacoco-maven-plugin</artifactId>
 		<version>0.8.5</version>
+		<configuration>
+			<append>true</append>
+			<excludes>
+				<exclude>*</exclude>
+			</excludes>
+		</configuration>
 		<executions>
 			<execution>
+				<id>jacoco-instrument</id>
+				<goals>
+					<goal>instrument</goal>
+				</goals>
+			</execution>
+			<execution>
+				<id>jacoco-restore-instrumented-classes</id>
+				<goals>
+					<goal>restore-instrumented-classes</goal>
+				</goals>
+			</execution>
+			<execution>
+				<id>pre-unit-tests</id>
 				<goals>
 					<goal>prepare-agent</goal>
 				</goals>
 			</execution>
 			<!-- attached to Maven test phase -->
 			<execution>
-				<id>report</id>
-				<phase>test</phase>
+				<id>report-unit-tests</id>
 				<goals>
 					<goal>report</goal>
 				</goals>
@@ -84,30 +133,29 @@
 			    <goals>
 				<goal>prepare-agent-integration</goal>
 			    </goals>
-			    <configuration>
-				<destFile>${session.executionRootDirectory}/target/jacoco-it.exec</destFile>
-                            	<append>true</append>
-			    </configuration>
 			</execution>
 			<execution>
-                        <id>report-integration-tests</id>
-                        <goals>
-                            <goal>report-integration</goal>
-                        </goals>
-                    </execution>
+                        	<id>report-integration-tests</id>
+                        	<goals>
+                            	    <goal>report-integration</goal>
+                        	</goals>
+                        </execution>
+			<execution>
+                        	<id>merge</id>
+                        	<configuration>
+                            	    <destFile>${session.executionRootDirectory}/target/jacoco-it.exec</destFile>
+				    <fileSets>
+					    <fileSet implementation=org.apache.maven.shared.model.fileset.FileSet">
+                                            <directory>${project.build.directory}</directory>
+                                            <includes>
+                                                <include>**/*.exec</include>
+                                            </includes>
+                                        </fileSet>
+                                    </fileSets>
+                        	</configuration>
+                        </execution>
 		</executions>
 	    </plugin>
-	    <plugin>
-                <artifactId>maven-failsafe-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <goals>
-                            <goal>integration-test</goal>
-                            <goal>verify</goal>
-                        </goals>
-                    </execution>
-                </executions>
-            </plugin>
         </plugins>
     </build>
 	
