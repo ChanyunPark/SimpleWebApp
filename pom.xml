@@ -83,14 +83,14 @@
 			<include>**/*IntegrationTest</include>
 		    </includes>
 		</configuration>
-		<excutions>
-		    <excution>
+		<executions>
+		    <execution>
 			    <id>default-integration-test</id>
 			    <goals>
 				    <goal>integration-test</goal>
 			    </goals>
-		    </excution>
-		</excutions>
+		    </execution>
+		</executions>
 	    </plugin>
 	    <plugin>
 		<groupId>org.jacoco</groupId>
